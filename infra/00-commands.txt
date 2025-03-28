@@ -1,0 +1,25 @@
+az login
+az account show
+terraform plan
+terraform apply
+terraform output -raw kube_config > kubeconfig.yaml
+export KUBECONFIG=$(pwd)/kubeconfig.yaml
+kubectl create configmap ai-service-config --from-env-file=../.env.ai-service
+kubectl create configmap users-service-config --from-env-file=../.env.users-service
+kubectl create configmap auth-service-config --from-env-file=../.env.auth-service
+kubectl create configmap gateway-service-config --from-env-file=../.env.gateway-service
+
+docker build --platform linux/amd64,linux/arm64 -t juancho637/ai-service:latest -f apps/ai-service/Dockerfile .
+docker push juancho637/ai-service:latest
+
+docker build --platform linux/amd64,linux/arm64 -t juancho637/users-service:latest -f apps/users-service/Dockerfile .
+docker push juancho637/users-service:latest
+
+docker build --platform linux/amd64,linux/arm64 -t juancho637/auth-service:latest -f apps/auth-service/Dockerfile .
+docker push juancho637/auth-service:latest
+
+docker build --platform linux/amd64,linux/arm64 -t juancho637/gateway-service:latest -f apps/gateway-service/Dockerfile .
+docker push juancho637/gateway-service:latest
+
+kubectl apply -f k8s
+terraform destroy

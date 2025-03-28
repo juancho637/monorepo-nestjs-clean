@@ -1,0 +1,22 @@
+{
+  "ignoreDirs": [
+    ".git",
+    "node_modules",
+    ".vscode",
+    ".terraform",
+    "dist"
+  ],
+  "ignoreFiles": [
+    ".DS_Store",
+    "package-lock.json",
+    ".env",
+    ".env.*",
+    ".terraform.lock.hcl",
+    "kubeconfig.yaml",
+    "terraform.tfstate",
+    "terraform.tfstate.backup",
+    "terraform.tfvars",
+    ".gitignore"
+  ],
+  "outDir": "./"
+}
