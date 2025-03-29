@@ -23,3 +23,5 @@ docker push juancho637/gateway-service:latest
 
 kubectl apply -f k8s
 terraform destroy
+
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.0/cert-manager.yaml
