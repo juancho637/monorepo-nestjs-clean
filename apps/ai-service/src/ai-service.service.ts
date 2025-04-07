@@ -30,7 +30,7 @@ export class AiServiceService {
     };
 
     const response = await firstValueFrom(
-      this.httpService.post('http://a87744e7-932a-4da4-848f-8f07f239e715.westus2.azurecontainer.io/score', body)
+      this.httpService.post('http://3602a0e6-3b6b-4432-a617-b1c6899ff54e.westus2.azurecontainer.io/score', body)
     );
      return response.data?.Results ? response.data.Results[0] : response.data;
   }
@@ -57,7 +57,7 @@ export class AiServiceService {
     };
 
     const response = await firstValueFrom(
-      this.httpService.post('http://19a298b1-c154-4641-bc35-c20234dd5d08.westus2.azurecontainer.io/score', body)
+      this.httpService.post('http://21ad73fe-b7fd-480d-a2f0-d77c3ce5a3bd.westus2.azurecontainer.io/score', body)
     );
      return response.data?.Results ? response.data.Results[0] : response.data;
   }

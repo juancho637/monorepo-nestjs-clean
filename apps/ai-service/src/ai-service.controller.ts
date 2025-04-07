@@ -8,11 +8,15 @@ export class AiServiceController {
 
   @MessagePattern({ cmd: 'classification' })
   async classification(data: any) {
+    console.log('Classification data:', data);
+
     return this.aiServiceService.classification(data);
   }
 
   @MessagePattern({ cmd: 'prediction' })
   async prediction(data: any) {
+    console.log('Prediction data:', data);
+
     return this.aiServiceService.prediction(data);
   }
 }

@@ -7,7 +7,15 @@ export class UsersServiceController {
   constructor(private readonly usersServiceService: UsersServiceService) {}
 
   @MessagePattern({ cmd: 'getHello' })
-  getHello() {
-    return 'Respuesta desde users-service';
+  getHello(data: any) {
+    console.log('Hello from UsersService!' + data.index);
+
+    return 'Hello from UsersService!';
+    // try {
+
+    //   throw new Error('Error en el servicio de usuarios');
+    // } catch (error) {
+    //   return 'error en el servicio de usuarios';
+    // }
   }
 }

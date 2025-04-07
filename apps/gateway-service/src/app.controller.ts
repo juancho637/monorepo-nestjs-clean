@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
-import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 
@@ -14,37 +13,45 @@ export class AppController {
   @Get('call-auth')
   async callAuthService() {
     // Envía un mensaje con el patrón { cmd: 'getHello' }
-    const response = await lastValueFrom(
-      this.authClient.send(
-        { cmd: 'getHello' },
-        {
-          /* datos opcionales */
-        },
-      ),
-    );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const response = await lastValueFrom(
+        this.authClient.send(
+          { cmd: 'getHello' },
+          {
+            /* datos opcionales */
+          },
+        ),
+      );
 
-    return { response };
+      console.log('Response from auth service:', response);
+      return { response };
+    } catch (error) {
+      console.log('Error from auth service:', error);
+      return { error: 'Error from auth service' };
+    }
   }
 
   @Get('call-users')
-  async callUsersService() {
-    const response = await lastValueFrom(
-      this.usersClient.send(
+  callUsersService() {
+    for (let index = 0; index < 200; index++) {
+      this.usersClient.emit(
         { cmd: 'getHello' },
         {
-          /* datos opcionales */
+          index,
         },
-      ),
-    );
+      );
+    }
 
-    return { response };
+    return 'Hello from UsersService!';
   }
 
   @Post('call-ai-classification')
   async callAiClassification(@Body() payload: any) {
     // El payload puede contener los datos que se requieran para el modelo
     const response = await lastValueFrom(
-      this.aiClient.send({ cmd: 'classification' }, payload)
+      this.aiClient.send({ cmd: 'classification' }, payload),
     );
     return { response };
   }
@@ -52,7 +59,7 @@ export class AppController {
   @Post('call-ai-prediction')
   async callAiPrediction(@Body() payload: any) {
     const response = await lastValueFrom(
-      this.aiClient.send({ cmd: 'prediction' }, payload)
+      this.aiClient.send({ cmd: 'prediction' }, payload),
     );
     return { response };
   }
